@@ -31,7 +31,7 @@ This platform connects professional cleaners to clients in Nairobi, providing an
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/cleaning-services-platform.git
+   git clone https://github.com/kc-allan/CleanPro-Services.git
    cd backend
    ```
 
@@ -51,9 +51,9 @@ This platform connects professional cleaners to clients in Nairobi, providing an
 4. **Set up the database:**
 
    ```bash
-   flask db init
-   flask db migrate -m "Initial migration."
-   flask db upgrade
+   alembic init migrations
+   alembic revision --autogenerate -m "Commit message"
+   alembic upgrade head
    ```
 
 5. **Run the backend server:**
@@ -78,7 +78,7 @@ This platform connects professional cleaners to clients in Nairobi, providing an
 
 3. **Start the frontend server:**
    ```bash
-   npm start
+   npm run start
    ```
    The frontend server will start on `http://localhost:3000`.
 
@@ -103,46 +103,18 @@ This platform connects professional cleaners to clients in Nairobi, providing an
 │   │   │   ├── engine
 │   │   │   │   ├── db_storage.py
 │   │   │   │   ├── __init__.py
-│   │   │   │   └── __pycache__
-│   │   │   │       ├── db_storage.cpython-312.pyc
-│   │   │   │       └── __init__.cpython-312.pyc
 │   │   │   ├── __init__.py
 │   │   │   ├── payment_method.py
 │   │   │   ├── payment.py
-│   │   │   ├── __pycache__
-│   │   │   │   ├── base_model.cpython-312.pyc
-│   │   │   │   ├── booking.cpython-312.pyc
-│   │   │   │   ├── __init__.cpython-312.pyc
-│   │   │   │   ├── payment.cpython-312.pyc
-│   │   │   │   ├── payment_method.cpython-312.pyc
-│   │   │   │   ├── review.cpython-312.pyc
-│   │   │   │   ├── role.cpython-312.pyc
-│   │   │   │   ├── service.cpython-312.pyc
-│   │   │   │   └── user.cpython-312.pyc
 │   │   │   ├── review.py
 │   │   │   ├── role.py
 │   │   │   ├── service.py
 │   │   │   └── user.py
-│   │   ├── __pycache__
-│   │   │   ├── admin2.cpython-312.pyc
-│   │   │   ├── admin.cpython-312.pyc
-│   │   │   └── __init__.cpython-312.pyc
 │   │   ├── routes
 │   │   │   ├── bookings.py
 │   │   │   ├── main
 │   │   │   │   ├── errors.py
 │   │   │   │   ├── __init__.py
-│   │   │   │   ├── __pycache__
-│   │   │   │   │   ├── errors.cpython-312.pyc
-│   │   │   │   │   ├── __init__.cpython-312.pyc
-│   │   │   │   │   └── views.cpython-312.pyc
-│   │   │   │   └── views.py
-│   │   │   ├── payments.py
-│   │   │   ├── __pycache__
-│   │   │   │   ├── bookings.cpython-312.pyc
-│   │   │   │   ├── payments.cpython-312.pyc
-│   │   │   │   ├── reviews.cpython-312.pyc
-│   │   │   │   └── services.cpython-312.pyc
 │   │   │   ├── reviews.py
 │   │   │   └── services.py
 │   │   ├── static
@@ -166,29 +138,8 @@ This platform connects professional cleaners to clients in Nairobi, providing an
 │   │           └── create_user.html
 │   ├── config.py
 │   ├── data-dev.sqlite
-│   ├── migrations
-│   │   ├── env.py
-│   │   ├── __pycache__
-│   │   │   └── env.cpython-312.pyc
-│   │   ├── README
-│   │   ├── script.py.mako
-│   │   └── versions
-│   │       ├── 3c3eedb25269_migrations.py
-│   │       ├── 59222f025664_migrations.py
-│   │       ├── 78d9dfd21751_migrations.py
-│   │       ├── dc6fa0afd85f_migrations.py
-│   │       └── __pycache__
-│   │           ├── 3c3eedb25269_migrations.cpython-312.pyc
-│   │           ├── 59222f025664_migrations.cpython-312.pyc
-│   │           ├── 78d9dfd21751_migrations.cpython-312.pyc
-│   │           └── dc6fa0afd85f_migrations.cpython-312.pyc
-│   ├── mysql-dev-setup.sql
-│   ├── __pycache__
-│   │   ├── config.cpython-312.pyc
-│   │   └── server.cpython-312.pyc
 │   ├── requirements.txt
 │   ├── server.py
-│   └── test.py
 ├── client
 │   ├── jsconfig.json
 │   ├── package.json
@@ -260,7 +211,7 @@ This platform connects professional cleaners to clients in Nairobi, providing an
 
    ```bash
    git clone https://github.com/kc-allan/CleanPro-Services.git
-   cd cleaning-services-platform
+   cd CleanPro-Services
 ````
 
 3. **Create a branch for your feature:**
@@ -290,6 +241,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-If you have any questions or need further assistance, feel free to contact us at [kiruiallan401@gmail.com](mailto:your-email@example.com).
-
----
+If you have any questions or need further assistance, feel free to contact us at [kiruiallan401@gmail.com](mailto: kiruiallan401@gmail.com).
