@@ -1,0 +1,33 @@
+{% extends 'admin/model/create.html' %}
+
+{% block body %}
+<div id="flashed"></div>
+{{ super() }}
+<script>
+    document.querySelector('form').addEventListener('submit', (event) => {
+        event.preventDefault()
+        const form = document.querySelector('form')
+        const name = document.querySelector('#name')
+        const description = document.querySelector('#description')
+        const price = document.querySelector('#price')
+        const flashed = document.querySelector('#flashed')
+    
+        fetch('/service/create', {
+            method: 'POST',
+            body: new FormData(form)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                flashed.textContent = data.message
+                form.reset()
+            } else {
+                flashed.textContent = data.message
+            }
+        })
+        .catch(error => {
+            flashed.textContent = error.message
+        })
+    })
+</script>
+{% endblock %}

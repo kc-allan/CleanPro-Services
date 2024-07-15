@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #76a8ff 0%, #5257f6 100%);
+        }
+    </style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+    <div class="bg-white p-4 rounded-lg shadow-lg w-[90%] sm:w-[75%] md:w-[50%] lg:w-[35%] xl:w-[25%]">
+        <h1 id="flashed" class="text-center text-red-500 mb-4"></h1>
+        <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Admin Login</h2>
+        <form action="/auth/login" method="post" class="space-y-4">
+            <div class="flex flex-col">
+                <label for="email" class="mb-2 text-gray-700">Email</label>
+                <input type="email" name="email" id="email" class="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+            </div>
+            <div class="flex flex-col">
+                <label for="password" class="mb-2 text-gray-700">Password</label>
+                <input type="password" name="password" id="password" class="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+            </div>
+            <div class="flex justify-center">
+                <input type="submit" value="Log In" class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300 cursor-pointer">
+            </div>
+        </form>
+		<div class="flex text-sm text-underline gap-4 text-blue-300 mt-4">
+			<a href="/admin/signup">Don't have an account?</a>
+			<a href="#">Forgot Password</a>
+		</div>
+    </div>
+	
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.querySelector('form')
+            const email = document.querySelector('#email')
+            const password = document.querySelector('#password')
+            const flashed = document.querySelector('#flashed')
+
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault()
+                if (email.value.split('@')[1] !== 'cleanpro.co.ke') {
+					flashed.textContent = 'Only admin emails are allowed'
+					return
+				}
+                try {
+                    const response = await fetch('/admin/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email: email.value,
+                            password: password.value
+                        })
+                    })
+                    if (!response.ok) {
+                        const errorData = await response.json()
+                        throw new Error(errorData.message)
+                    }
+                    flashed.textContent = 'Login successful!';
+                    flashed.classList.remove('text-red-500');
+                    flashed.classList.add('text-green-500');
+                    window.location.replace('/')
+                } catch (error) {
+                    console.log(error)
+                    flashed.textContent = error.message
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>

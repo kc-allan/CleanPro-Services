@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin Signup</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		body {
+			background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+		}
+	</style>
+</head>
+
+<body class="flex items-center justify-center h-screen">
+	<div class="bg-white p-4 rounded-lg shadow-lg w-[90%] sm:w-[75%] md:w-[50%]">
+		<h1 id="flashed" class="text-center text-red-500 mb-4"></h1>
+		<h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Admin Signup</h2>
+		<form action="/auth/signup" method="post" class="space-y-4">
+			<div class="flex gap-6">
+				<div class="flex flex-col">
+					<label for="firstname" class="mb-2 text-gray-700">First Name</label>
+					<input type="text" name="firstname" id="firstname"
+						class="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600"
+						required>
+				</div>
+				<div class="flex flex-col">
+					<label for="lastname" class="mb-2 text-gray-700">Last Name</label>
+					<input type="text" name="lastname" id="lastname"
+						class="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600"
+						required>
+				</div>
+			</div>
+			<div class="flex flex-col">
+				<label for="email" class="mb-2 text-gray-700">Email</label>
+				<input type="email" name="email" id="email"
+					class="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600"
+					required>
+			</div>
+			<div class="flex flex-col">
+				<label for="password" class="mb-2 text-gray-700">Password</label>
+				<input type="password" name="password" id="password"
+					class="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600"
+					required>
+			</div>
+			<div class="flex flex-col">
+				<label for="confirm_password" class="mb-2 text-gray-700">Confirm Password</label>
+				<input type="password" name="confirm_password" id="confirm_password"
+					class="border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-600"
+					required>
+			</div>
+			<div class="flex justify-center">
+				<input type="submit" value="Sign Up"
+					class="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300 cursor-pointer">
+			</div>
+		</form>
+	</div>
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const form = document.querySelector('form')
+			const firstname = document.querySelector('#firstname')
+			const lastname = document.querySelector('#lastname')
+			const email = document.querySelector('#email')
+			const password = document.querySelector('#password')
+			const confirm_password = document.querySelector('#confirm_password')
+			const flashed = document.querySelector('#flashed')
+
+			form.addEventListener('submit', async (event) => {
+				event.preventDefault()
+				if (password.value !== confirm_password.value) {
+					flashed.textContent = 'Passwords do not match'
+					return
+				}
+				if (email.value.split('@')[1] !== 'cleanpro.co.ke') {
+					flashed.textContent = 'Email does not match organization requirements'
+					return
+				}
+				try {
+					const response = await fetch('/auth/signup', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							firstname: firstname.value,
+							lastname: lastname.value,
+							email: email.value,
+							password: password.value,
+						})
+					})
+					if (!response.ok) {
+						const errorData = await response.json()
+						throw new Error(errorData.message)
+					}
+					flashed.textContent = 'Signup successful!';
+					flashed.classList.remove('text-red-500');
+					flashed.classList.add('text-green-500');
+					window.location.replace('/login')
+				} catch (error) {
+					console.log(error)
+					flashed.textContent = error.message
+				}
+			})
+		})
+	</script>
+</body>
+
+</html>

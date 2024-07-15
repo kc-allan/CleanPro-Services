@@ -1,0 +1,105 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<div class="container">
+	<h2>User Report</h2>
+	<dl class="row">
+		<dt class="col-sm-3">First Name</dt>
+		<dd class="col-sm-9">{{ user.firstname }}</dd>
+
+		<dt class="col-sm-3">Last Name</dt>
+		<dd class="col-sm-9">{{ user.lastname }}</dd>
+
+		<dt class="col-sm-3">Email Address</dt>
+		<dd class="col-sm-9">{{ user.email }}</dd>
+
+		<!-- Add more fields as needed -->
+
+		<dt class="col-sm-3">Role</dt>
+		<dd class="col-sm-9">{{ user.type | title }}</dd>
+		<a href="/admin/user/{{ user.id }}/deactivate" class="btn btn-danger m-2 p-2">Deactivate</a>
+<br>
+		<!-- Example: Display related bookings -->
+		<h4 class="col-sm-3">Bookings</h4>
+		<table class="table table-bordered table-striped table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>Date Posted</th>
+					<th>Due On</th>
+					<th>Date Completed</th>
+					<th>Worker</th>
+					<th>Service</th>
+					<th>Client</th>
+					<th>Status</th>
+					<th class="text-center">Payment Method</th>
+					<th class="text-center">Pricing (KSH)</th>
+					<th>Paid?</th>
+				</tr>
+			</thead>
+			{% if not user.bookings or user.bookings|length == 0 %}
+			<tbody>
+				<tr>
+					<td colspan="6" class="text-center m-2 p-2">
+						No Booking History
+					</td>
+				</tr>
+			</tbody>
+			{% else %}
+			<tbody>
+				{% for row in user.bookings %}
+				<tr>
+					<td>{{ row.created_at }}</td>
+					<td>{{row.date}}</td>
+					<td>
+						{% if row.status == 'completed' %}
+						{{ row.completed_on }}
+						{% else %}
+						Not Completed
+						{% endif %}
+					</td>
+					<td>
+						{% if row.worker %}
+						{% if row.worker == user %}
+						This User
+						{% else %}
+						<a href="/admin/user/{{row.worker.id}}">
+							{{ row.worker.firstname }} {{ row.worker.lastname }}
+						</a>
+						{% endif %}
+						{% else %}
+						Not Assigned
+						{% endif %}
+					</td>
+					<td>
+						{{row.service.name | title }}
+					</td>
+					<td>
+						{% if row.client == user %}
+						This User
+						{% else %}
+						<a href="/admin/user/{{row.client.id}}">
+							{{ row.client.firstname }} {{ row.client.lastname }}
+						</a>
+						{% endif %}
+					</td>
+					<td>
+						{% if row.status == "completed" %}
+						<span class="badge bg-success">{{ row.status }}</span>
+						{% else %}
+						<span class="badge bg-warning text-dark">{{ row.status }}</span>
+						{% endif %}
+					</td>
+					<td class="text-center">
+						{{ row.payment_method | default("None") }}
+					</td>
+					<td class="text-center">{{ row.service.price }}</td>
+					<td>{{row.paid}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+			{% endif %}
+		</table>
+
+	</dl>
+</div>
+{% endblock %}

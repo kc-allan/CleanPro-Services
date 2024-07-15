@@ -1,0 +1,99 @@
+{% extends 'admin/model/create.html' %}
+
+{% block body %}
+<div class="bg-white p-4 rounded-lg shadow-lg w-[90%] sm:w-[75%] md:w-[50%]">
+	<h1 id="flashed" class="text-center text-red-500 mb-4"></h1>
+	<h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Admin Signup</h2>
+	<form action="/auth/signup" method="post" class="space-y-4">
+		<div class="form-group">
+			<label for="firstname" class="mb-2 text-gray-700">First Name</label>
+			<input type="text" name="firstname" id="firstname"
+			class="form-control"
+			required>
+		</div>
+		<div class="form-group">
+			<label for="lastname">Last Name</label>
+			<input type="text" name="lastname" id="lastname"
+				class="form-control"
+				required>
+		</div>
+		<div class="form-group">
+			<label for="email">Email</label>
+			<input type="email" name="email" id="email"
+			class="form-control"
+			required>
+		</div>
+		<div class="form-group">
+			<label for="user_role">Role</label>
+			<select name="user_role" id="user_role" class="form-control">
+				<option value="client">Client</option>
+				<option value="worker">Worker</option>
+				<option value="admin">Administrator</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="password" class="mb-2 text-gray-700">Password</label>
+			<input type="password" name="password" id="password"
+			class="form-control"
+			required>
+		</div>
+		<div class="form-group w-1/2">
+			<label for="confirm_password" class="mb-2 text-gray-700">Confirm Password</label>
+			<input type="password" name="confirm_password" id="confirm_password"
+			class="form-control"
+			required>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Create" class="btn btn-primary">
+		</div>
+	</form>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const form = document.querySelector('form')
+		const firstname = document.querySelector('#firstname')
+		const lastname = document.querySelector('#lastname')
+		const email = document.querySelector('#email')
+		const password = document.querySelector('#password')
+		const confirm_password = document.querySelector('#confirm_password')
+		const flashed = document.querySelector('#flashed')
+		const role = document.querySelector('#user_role')
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault()
+			if (role.value === 'admin' && email.value.split('@')[1] !== 'cleanpro.co.ke') {
+				flashed.textContent = 'Email does not match organization requirements for Admins'
+				return
+			}
+			if (password.value !== confirm_password.value) {
+				flashed.textContent = 'Passwords do not match'
+				return
+			}
+			try {
+				const response = await fetch('/auth/signup', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						firstname: firstname.value,
+						lastname: lastname.value,
+						email: email.value,
+						user_role: role.value,
+						password: password.value,
+					})
+				})
+				if (!response.ok) {
+					const errorData = await response.json()
+					throw new Error(errorData.message)
+				}
+				flashed.textContent = 'Created successfully!';
+				flashed.classList.remove('text-red-500');
+				flashed.classList.add('text-green-500');
+				form.reset()
+			} catch (error) {
+				console.log(error)
+				flashed.textContent = error.message
+			}
+		})
+	})
+</script>
+{% endblock %}

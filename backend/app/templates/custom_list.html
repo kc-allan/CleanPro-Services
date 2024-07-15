@@ -1,0 +1,9 @@
+{% extends 'admin/model/list.html' %} 
+{% block body %} 
+    {{ super() }} 
+{% endblock %}
+
+{% block list_row_actions %} 
+    {{ super() }} 
+    <a href="/admin/user/{{get_pk_value(row)}}">View</a>
+{% endblock %}

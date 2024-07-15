@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Admin Dashboard</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<style>
+		body {
+			background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+		}
+
+		.card {
+			background-color: #ffffff;
+			border-radius: 0.75rem;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			padding: 1.5rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.card-title {
+			font-size: 1.25rem;
+			font-weight: 600;
+			color: #4b5563;
+		}
+
+		.card-content {
+			margin-top: 1rem;
+		}
+
+		.card-content p {
+			font-size: 1.5rem;
+			color: #805ad5;
+		}
+
+		.icon {
+			width: 1.5rem;
+			height: 1.5rem;
+			margin-right: 0.5rem;
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		a {
+			color: #3b82f6;
+			text-decoration: underline;
+			display: block;
+			margin-top: 1rem;
+		}
+
+		.view-more:hover {
+			text-decoration: none;
+		}
+	</style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center">
+	<div class="container mx-auto p-4">
+		<h1 class="text-4xl font-bold text-center text-white mb-8">Clean Pro Analytics</h1>
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+			<!-- Number of Users -->
+			<div class="card">
+				<h2 class="card-title">Number of Users</h2>
+				<h3 class="text-xl text-purple-600">{{users}}</h3>
+				<div class="card-content">
+					<div class="grid grid-cols-3 gap-2">
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Active</h4>
+							<p class="text-md text-purple-600">{{active}}</p>
+						</div>
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Inactive</h4>
+							<p class="text-md text-purple-600">{{inactive}}</p>
+						</div>
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Administrators</h4>
+							<p class="text-md text-purple-600">{{admins}}</p>
+						</div>
+						<div class="flex col-span-3 gap-4 w-[100%]">
+							<div class="bg-gray-100 rounded-lg p-2 w-1/2">
+								<h4 class="text-sm font-semibold text-gray-700">Workers</h4>
+								<p class="text-md text-purple-600">{{workers}}</p>
+							</div>
+							<div class="bg-gray-100 rounded-lg p-2 w-1/2">
+								<h4 class="text-sm font-semibold text-gray-700">Clients</h4>
+								<p class="text-md text-purple-600">{{clients}}</p>
+							</div>
+						</div>
+					</div>
+					<canvas id="usersChart" width="100" height="50"></canvas>
+				</div>
+				<div class="flex gap-4">
+					<a href="/admin/user" class="view-more mr-6">All Users</a>
+					<a href="/admin/admins">Admins</a>
+					<a href="/admin/client">Clients</a>
+					<a href="/admin/worker">Workers</a>
+				</div>
+			</div>
+
+			<!-- Services Registered -->
+			<div class="card">
+				<h2 class="card-title">Services Registered</h2>
+				<h3 class="text-xl text-purple-600">{{num_services}}</h3>
+				<h2 class="card-title text-center">Top Services</h2>
+				<div class="card-content">
+					<div class="grid grid-cols-1 gap-2">
+						{% for service in services %}
+						<div class="flex items-center bg-gray-100 rounded-lg p-2">
+							<div
+								class="m-2 p-2 pb-3 w-8 h-8 rounded-full flex justify-center items-center text-2xl font-bold text-white
+								{% if loop.index0 == 0 %}bg-gray-400{% elif loop.index0 == 1 %}bg-red-400{% else %}bg-green-400{% endif %}">
+								{% if loop.index0 == 0 %}&minus;{% elif loop.index0 == 1 %}&downarrow;{% else %}&uparrow;{% endif %}
+							</div>
+							<div>
+								<h4 class="text-sm font-semibold text-gray-700">{{service.name | title}}</h4>
+								<p class="text-md text-purple-600">{{ service.bookings | length }} booking/s</p>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<a href="/admin/service" class="view-more">View More</a>
+			</div>
+
+			<!-- Bookings Summary -->
+			<div class="card">
+				<h2 class="card-title">Bookings</h2>
+				<h3 class="text-xl text-purple-600">{{bookings_num}}</h3>
+				<div class="card-content">
+					<div class="grid grid-cols-3 gap-2">
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Pending</h4>
+							<p class="text-md text-purple-600">{{pending}}</p>
+						</div>
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Confirmed</h4>
+							<p class="text-md text-purple-600">{{confirmed}}</p>
+						</div>
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Closed</h4>
+							<p class="text-md text-purple-600">{{closed}}</p>
+						</div>
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Completed</h4>
+							<p class="text-md text-purple-600">{{completed}}</p>
+						</div>
+						<div class="bg-gray-100 rounded-lg p-2">
+							<h4 class="text-sm font-semibold text-gray-700">Cancelled</h4>
+							<p class="text-md text-purple-600">{{cancelled}}</p>
+						</div>
+					</div>
+				</div>
+				<a href="/admin/booking" class="view-more">View More</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Sample data for the line chart
+		const labels = ['January', 'February', 'March', 'April', 'May', 'June'];
+		const data = {
+			labels: labels,
+			datasets: [{
+				label: 'User Registrations',
+				data: [65, 59, 80, 81, 56, 55],
+				fill: false,
+				borderColor: 'rgb(75, 192, 192)',
+				tension: 0.1
+			}]
+		};
+
+		// Create the line chart for users
+		var ctxUsers = document.getElementById('usersChart').getContext('2d');
+		var usersChart = new Chart(ctxUsers, {
+			type: 'line',
+			data: data,
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					},
+				},
+			}
+		});
+	</script>
+</body>
+
+</html>
