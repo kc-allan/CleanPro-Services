@@ -1,25 +1,25 @@
-Here's a more detailed README that explains how to run the project locally:
-
----
-
 # React + Flask Cleaning Services Platform
 
 ## Overview
+
 This platform connects professional cleaners to clients in Nairobi, providing an easy, efficient, and affordable way to book cleaning services. Cleaners can showcase their skills and work ethic on detailed profiles, including ratings from previous jobs, while clients can book services with confidence.
 
 ## Features
+
 - **Cleaner Profiles:** Detailed profiles for cleaners including their skills, work history, and ratings.
 - **Booking Services:** Clients can easily book cleaning services.
 - **Efficiency:** Streamlined process for booking and managing cleaning services.
 - **Affordability:** Competitive pricing for cleaning services.
 
 ## Tech Stack
+
 - **Frontend:** React
 - **Backend:** Flask
 - **Database:** SQLite (for local development)
-				MySQL (for production)
+  MySQL (for production)
 
 ## Prerequisites
+
 - **Node.js & npm:** Ensure you have Node.js and npm installed. You can download them from [here](https://nodejs.org/).
 - **Python:** Ensure you have Python installed. You can download it from [here](https://www.python.org/).
 - **Virtualenv:** It's recommended to use virtual environments for Python projects. You can install it using `pip install virtualenv`.
@@ -27,62 +27,71 @@ This platform connects professional cleaners to clients in Nairobi, providing an
 ## Setup
 
 ### Backend (Flask)
+
 1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/cleaning-services-platform.git
-    cd backend
-    ```
+
+   ```bash
+   git clone https://github.com/yourusername/cleaning-services-platform.git
+   cd backend
+   ```
 
 2. **Set up a virtual environment:**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
+
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
 
 3. **Install the required packages:**
-    ```bash
-    pip install -r requirements.txt
-    ```
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 4. **Set up the database:**
-    ```bash
-    flask db init
-    flask db migrate -m "Initial migration."
-    flask db upgrade
-    ```
+
+   ```bash
+   flask db init
+   flask db migrate -m "Initial migration."
+   flask db upgrade
+   ```
 
 5. **Run the backend server:**
-    ```bash
-    flask run
-    ```
-    The backend server will start on `http://127.0.0.1:5000`.
+   ```bash
+   flask run
+   ```
+   The backend server will start on `http://127.0.0.1:5000`.
 
 ### Frontend (React)
+
 1. **Navigate to the frontend directory:**
-    ```bash
-    cd client
-    ```
+
+   ```bash
+   cd client
+   ```
 
 2. **Install the required packages:**
-    ```bash
-    npm install
-    ```
+
+   ```bash
+   npm install
+   ```
 
 3. **Start the frontend server:**
-    ```bash
-    npm start
-    ```
-    The frontend server will start on `http://localhost:3000`.
+   ```bash
+   npm start
+   ```
+   The frontend server will start on `http://localhost:3000`.
 
 ## Running the Project Locally
+
 1. **Start the backend server (Flask):** Follow the instructions in the Backend section above.
 2. **Start the frontend server (React):** Follow the instructions in the Frontend section above.
 3. **Access the application:** Open your web browser and go to `http://localhost:3000`.
 
 ## Directory Structure
-```
-CleanPro-Services/
-.
+
+````
+ CleanPro-Services/
 ├── backend
 │   ├── alembic.ini
 │   ├── app
@@ -239,42 +248,48 @@ CleanPro-Services/
 │   │   └── theme.js
 │   └── tailwind.config.js
 └── README.md
-
 └── ...
-```
 
 ## Contributing
+
 1. **Fork the repository:**
-    - Click on the "Fork" button at the top right corner of the repository page.
+
+   - Click on the "Fork" button at the top right corner of the repository page.
 
 2. **Clone your fork:**
-    ```bash
-    git clone https://github.com/kc-allan/CleanPro-Services.git
-    cd cleaning-services-platform
-    ```
+
+   ```bash
+   git clone https://github.com/kc-allan/CleanPro-Services.git
+   cd cleaning-services-platform
+````
 
 3. **Create a branch for your feature:**
-    ```bash
-    git checkout -b feature-name
-    ```
+
+   ```bash
+   git checkout -b feature-name
+   ```
 
 4. **Make your changes and commit them:**
-    ```bash
-    git commit -m "Description of the feature or fix"
-    ```
+
+   ```bash
+   git commit -m "Description of the feature or fix"
+   ```
 
 5. **Push your changes to your fork:**
-    ```bash
-    git push origin feature-name
-    ```
+
+   ```bash
+   git push origin feature-name
+   ```
 
 6. **Create a pull request:**
-    - Go to the original repository and click on the "New pull request" button.
+   - Go to the original repository and click on the "New pull request" button.
 
 ## License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contact
+
 If you have any questions or need further assistance, feel free to contact us at [kiruiallan401@gmail.com](mailto:your-email@example.com).
 
 ---
