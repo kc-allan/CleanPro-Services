@@ -21,4 +21,4 @@ if __name__ == '__main__':
     with app.app_context():
         from app.models.role import Role
         Role.insert_roles()
-    app.run(port=5001, host='0.0.0.0')
+    app.run(port=5001)
