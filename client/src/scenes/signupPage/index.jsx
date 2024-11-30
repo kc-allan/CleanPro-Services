@@ -20,7 +20,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        CleanPro Services
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -57,7 +57,7 @@ export default function SignUp() {
       work: becomeProvider,
     })
     try {
-      const response = await fetch('/auth/signup', {
+      const response = await fetch(import.meta.env.API_URL + '/auth/signup', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: req,
