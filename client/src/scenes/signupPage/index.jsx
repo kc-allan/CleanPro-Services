@@ -57,7 +57,7 @@ export default function SignUp() {
       work: becomeProvider,
     })
     try {
-      const response = await fetch(import.meta.env.API_URL + '/auth/signup', {
+      const response = await fetch(import.meta.env.REACT_APP_API_URL + '/auth/signup', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: req,
