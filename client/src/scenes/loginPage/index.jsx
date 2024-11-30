@@ -55,7 +55,7 @@ export default function SignIn() {
     })
 
     try {
-      const response = await fetch(import.meta.env.API_URL + "/auth/login", {
+      const response = await fetch(import.meta.env.REACT_APP_API_URL + "/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: req,
