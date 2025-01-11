@@ -26,7 +26,7 @@ const UserWidget = ({ userId, user }) => {
 
   // Calculate average rating
   useEffect(() => {
-    if (user.type == 'worker' && reviews.length !== 0) {
+    if (user.type == 'worker' && reviews?.length !== 0) {
       const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
       setAverageRating(totalRating / reviews.length);
     }
